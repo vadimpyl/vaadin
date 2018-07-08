@@ -28,6 +28,7 @@ public class MyUI extends UI {
         TextField txtPassword = new TextField("Password");
        /* txtUsername.setRequired(true);
         txtPassword.setRequired(true);
+        txtPassword.setRequired(true);
         txtPassword.setSecret(true);*/
         layout.addComponent(new Label("Hello World!"));
         //FormLayout content = new FormLayout();
