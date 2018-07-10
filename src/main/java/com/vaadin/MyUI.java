@@ -2,9 +2,10 @@ package com.vaadin;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
+import com.vaadin.ui.UI;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -21,23 +22,33 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
 
-        Button btnLogin = new Button("Login");
-        TextField txtUsername = new TextField("Username");
-        TextField txtPassword = new TextField("Password");
-       /* txtUsername.setRequired(true);
-        txtPassword.setRequired(true);
-        txtPassword.setRequired(true);
-        txtPassword.setSecret(true);*/
-        layout.addComponent(new Label("Hello World!"));
-        //FormLayout content = new FormLayout();
+        new Navigator(this, this);
+        getNavigator().addView(LoginPage.NAME, LoginPage.class);
+        getNavigator().setErrorView(LoginPage.class);
+
+       /* final VerticalLayout layout = new VerticalLayout();
+
+        Panel panel = new Panel("Login");
+        panel.setSizeUndefined();
+        setContent(panel);
+
         TextField username = new TextField("Username");
-        layout.addComponent(username);
         PasswordField password = new PasswordField("Password");
-        layout.addComponent(password);
+        layout.addComponents(username, password);
 
-        setContent(layout);
+
+        Button loginButton = new Button("Login");
+        Button registerButton = new Button("Register");
+
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
+        buttonsLayout.addComponents(loginButton, registerButton);
+        buttonsLayout.setSpacing(true);
+
+        layout.addComponent(buttonsLayout);
+        //setContent(layout);
+        layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        panel.setContent(layout);*/
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
