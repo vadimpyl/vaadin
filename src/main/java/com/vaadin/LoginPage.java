@@ -45,6 +45,7 @@ public class LoginPage extends VerticalLayout implements View
                     Page.getCurrent().setUriFragment("!"+SecurePage.NAME);
                 }else{
                     Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
+                    Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
                 }*/
             }
 
