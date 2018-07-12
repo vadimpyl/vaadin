@@ -3,8 +3,10 @@ package com.vaadin;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,6 @@ import javax.servlet.annotation.WebServlet;
  */
 @Theme("mytheme")
 public class MyUI extends UI {
-    //private TextField txtUsername = new TextField("Username");
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -27,28 +28,28 @@ public class MyUI extends UI {
         getNavigator().addView(LoginPage.NAME, LoginPage.class);
         getNavigator().setErrorView(LoginPage.class);
 
-       /* final VerticalLayout layout = new VerticalLayout();
+        Page.getCurrent().addUriFragmentChangedListener(new Page.UriFragmentChangedListener() {
 
-        Panel panel = new Panel("Login");
-        panel.setSizeUndefined();
-        setContent(panel);
+            @Override
+            public void uriFragmentChanged(Page.UriFragmentChangedEvent event)
+            {
+                router(event.getUriFragment());
+            }
+        });
 
-        TextField username = new TextField("Username");
-        PasswordField password = new PasswordField("Password");
-        layout.addComponents(username, password);
 
+    }
+    private void router(String route){
+        Notification.show(route);
 
-        Button loginButton = new Button("Login");
-        Button registerButton = new Button("Register");
-
-        HorizontalLayout buttonsLayout = new HorizontalLayout();
-        buttonsLayout.addComponents(loginButton, registerButton);
-        buttonsLayout.setSpacing(true);
-
-        layout.addComponent(buttonsLayout);
-        //setContent(layout);
-        layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        panel.setContent(layout);*/
+        if(route.equals("!WelcomePage"))
+        {
+            getNavigator().navigateTo(WelcomePage.NAME);
+        }
+        else if(route.equals("!RegisterPage"))
+        {
+            getNavigator().navigateTo(RegisterPage.NAME);
+        }
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

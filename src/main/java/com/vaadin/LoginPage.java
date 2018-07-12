@@ -3,16 +3,27 @@ package com.vaadin;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.server.Page;
+import com.vaadin.server.UserError;
+import com.vaadin.service.LoginService;
+import com.vaadin.service.LoginServiceImpl;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 public class LoginPage extends VerticalLayout implements View
 {
     private static final long serialVersionUID = 1L;
     public static final String NAME = "";
+    public LoginPage()
+    {
+        LoginService loginService = new LoginServiceImpl();
 
-    public LoginPage(){
         Panel panel = new Panel("Login");
         panel.setSizeUndefined();
         addComponent(panel);
@@ -24,38 +35,50 @@ public class LoginPage extends VerticalLayout implements View
         PasswordField password = new PasswordField("Password");
         content.addComponent(password);
 
-
         Button loginButton = new Button("Login");
         Button registerButton = new Button("Register");
+
+        loginButton.addClickListener(new Button.ClickListener()
+        {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent)
+            {
+                if(loginService.login(username.getValue(), password.getValue()) != null)
+                {
+
+
+
+                }
+                else
+                {
+                    username.setComponentError( new UserError("Wrong UserName"));
+                    password.setComponentError( new UserError("Wrong Password"));
+                }
+            }
+        });
+
+        registerButton.addClickListener(new Button.ClickListener()
+        {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent)
+            {
+                getUI().getNavigator().addView(RegisterPage.NAME, new RegisterPage());
+                getUI().getNavigator().setErrorView(RegisterPage.class);
+                Page.getCurrent().setUriFragment("!"+RegisterPage.NAME);
+            }
+        });
 
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         buttonsLayout.addComponents(loginButton, registerButton);
         buttonsLayout.setSpacing(true);
 
-        Button send = new Button("Enter");
-        send.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-           /*     if(VaadinloginUI.AUTH.authenticate(username.getValue(), password.getValue())){
-                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
-                    getUI().getNavigator().addView(SecurePage.NAME, SecurePage.class);
-                    getUI().getNavigator().addView(OtherSecurePage.NAME, OtherSecurePage.class);
-                    Page.getCurrent().setUriFragment("!"+SecurePage.NAME);
-                }else{
-                    Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
-                    Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
-                }*/
-            }
-
-        });
         content.addComponent(buttonsLayout);
-        content.setSizeFull();
 
-        setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
+        content.setSizeUndefined();
         content.setMargin(true);
         panel.setContent(content);
+        setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
+
     }
 
     @Override
