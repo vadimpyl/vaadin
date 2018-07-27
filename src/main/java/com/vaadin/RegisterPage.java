@@ -9,6 +9,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -23,16 +24,19 @@ public class RegisterPage extends VerticalLayout implements View
     {
         FormLayout form = new FormLayout();
 
-        TextField titleField = new TextField("Registration Form");
+        Label titleField = new Label("Registration Form");
         form.addComponent(titleField);
 
-        TextField name = new TextField("Name");
-        name.setRequiredIndicatorVisible(true);
-        form.addComponent(name);
+        TextField login = new TextField("Login");
+        login.setRequiredIndicatorVisible(true);
+        form.addComponent(login);
 
-        TextField userName = new TextField("UserName");
-        userName.setRequiredIndicatorVisible(true);
-        form.addComponent(userName);
+        TextField firstName = new TextField("First Name");
+        firstName.setRequiredIndicatorVisible(true);
+        form.addComponent(firstName);
+
+        TextField lastName = new TextField("Last Name");
+        form.addComponent(lastName);
 
         TextField streetAddress = new TextField("Street address");
         form.addComponent(streetAddress);
@@ -58,8 +62,9 @@ public class RegisterPage extends VerticalLayout implements View
             @Override
             public void buttonClick(Button.ClickEvent clickEvent)
             {
-                UserHelper.addToList(new User(userName.getValue(), name.getValue(), password.getValue()));
-                VaadinSession.getCurrent().setAttribute("user", userName.getValue());
+                UserHelper.addToList(new User(login.getValue(), firstName.getValue(), lastName.getValue(), streetAddress.getValue(),
+                        password.getValue()));
+                VaadinSession.getCurrent().setAttribute("user", login.getValue());
 
                 getUI().getNavigator().addView(WelcomePage.NAME, new WelcomePage());
                 Page.getCurrent().setUriFragment("!"+WelcomePage.NAME);

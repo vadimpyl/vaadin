@@ -11,6 +11,6 @@ public class LoginServiceImpl implements LoginService
     {
 
         return UserHelper.listOfUsers().stream().
-                filter(user -> username.equals(user.getUsername()) && password.equals(user.getPassword())).findAny().orElse(null);
+                filter(user -> username.equals(user.getLogin()) && password.equals(user.getPassword())).findAny().orElse(null);
     }
 }

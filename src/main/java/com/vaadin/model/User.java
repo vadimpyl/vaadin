@@ -2,31 +2,51 @@ package com.vaadin.model;
 
 public class User
 {
-    private String username;
-    private String name;
+    private String login;
+    private String firstName;
+    private String lastName;
+    private String address;
     private String password;
 
-    public User(String username, String name, String password)
+    public User(String login, String firstName, String lastName, String address, String password)
     {
-        this.username = username;
-        this.name = name;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPassword() {
@@ -36,6 +56,4 @@ public class User
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

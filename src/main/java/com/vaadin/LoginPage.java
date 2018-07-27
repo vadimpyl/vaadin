@@ -5,6 +5,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.UserError;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.service.LoginService;
 import com.vaadin.service.LoginServiceImpl;
 import com.vaadin.ui.Alignment;
@@ -45,9 +46,9 @@ public class LoginPage extends VerticalLayout implements View
             {
                 if(loginService.login(username.getValue(), password.getValue()) != null)
                 {
-
-
-
+                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
+                    getUI().getNavigator().addView(WelcomePage.NAME, new WelcomePage());
+                    Page.getCurrent().setUriFragment("!"+WelcomePage.NAME);
                 }
                 else
                 {
