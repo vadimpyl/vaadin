@@ -7,12 +7,17 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class RegisterPage extends VerticalLayout implements View
 {
@@ -38,14 +43,18 @@ public class RegisterPage extends VerticalLayout implements View
         TextField lastName = new TextField("Last Name");
         form.addComponent(lastName);
 
-        TextField streetAddress = new TextField("Street address");
-        form.addComponent(streetAddress);
+        DateField date = new DateField("Date of birth");
+        date.setDateFormat("yyyy-MM-dd");
+        form.addComponent(date);
 
         TextField postalCode = new TextField("Postal code");
         form.addComponent(postalCode);
 
-        TextField city = new TextField("City");
+        TextField city = new TextField("Birth City");
         form.addComponent(city);
+
+        TextField country = new TextField("Birth Country");
+        form.addComponent(country);
 
         PasswordField password = new PasswordField("Password");
         PasswordField confirmPassword = new PasswordField("Confirm Password");
@@ -62,8 +71,8 @@ public class RegisterPage extends VerticalLayout implements View
             @Override
             public void buttonClick(Button.ClickEvent clickEvent)
             {
-                UserHelper.addToList(new User(login.getValue(), firstName.getValue(), lastName.getValue(), streetAddress.getValue(),
-                        password.getValue()));
+                UserHelper.addToList(new User(login.getValue(), firstName.getValue(), lastName.getValue(), parseDate(date.getValue().toString()),
+                                     city.getValue(), country.getValue(), password.getValue()));
                 VaadinSession.getCurrent().setAttribute("user", login.getValue());
 
                 getUI().getNavigator().addView(WelcomePage.NAME, new WelcomePage());
@@ -73,7 +82,13 @@ public class RegisterPage extends VerticalLayout implements View
         });
     }
 
-
+    public static Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

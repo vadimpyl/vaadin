@@ -1,19 +1,26 @@
 package com.vaadin.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class User
 {
     private String login;
     private String firstName;
     private String lastName;
-    private String address;
+    private Date birthDate;
+    private String birthCity;
+    private String birthCountry;
     private String password;
 
-    public User(String login, String firstName, String lastName, String address, String password)
+    public User(String login, String firstName, String lastName, Date birthDate, String birthCity, String birthCountry, String password)
     {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.birthDate = birthDate;
+        this.birthCity = birthCity;
+        this.birthCountry = birthCountry;
         this.password = password;
     }
 
@@ -41,14 +48,6 @@ public class User
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -56,4 +55,33 @@ public class User
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getBirthDate() {
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        String date = simpleDateFormat.format(birthDate);
+        return date;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getBirthCity() {
+        return birthCity;
+    }
+
+    public void setBirthCity(String birthCity) {
+        this.birthCity = birthCity;
+    }
+
+    public String getBirthCountry() {
+        return birthCountry;
+    }
+
+    public void setBirthCountry(String birthCountry) {
+        this.birthCountry = birthCountry;
+    }
+
 }
