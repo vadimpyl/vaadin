@@ -29,13 +29,11 @@ public class LoginPage extends VerticalLayout implements View
         panel.setSizeUndefined();
         addComponent(panel);
         setHeight("100%");
-
         FormLayout content = new FormLayout();
         TextField username = new TextField("Username");
         content.addComponent(username);
         PasswordField password = new PasswordField("Password");
         content.addComponent(password);
-
         Button loginButton = new Button("Login");
         Button registerButton = new Button("Register");
 
@@ -57,7 +55,6 @@ public class LoginPage extends VerticalLayout implements View
                 }
             }
         });
-
         registerButton.addClickListener(new Button.ClickListener()
         {
             @Override
@@ -72,14 +69,11 @@ public class LoginPage extends VerticalLayout implements View
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         buttonsLayout.addComponents(loginButton, registerButton);
         buttonsLayout.setSpacing(true);
-
         content.addComponent(buttonsLayout);
-
         content.setSizeUndefined();
         content.setMargin(true);
         panel.setContent(content);
         setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
-
     }
 
     @Override

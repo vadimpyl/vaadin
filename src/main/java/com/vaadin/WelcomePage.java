@@ -29,13 +29,17 @@ public class WelcomePage extends VerticalLayout implements View
 
     public WelcomePage()
     {
+        TextField tf = new TextField();
+        TextField tf1 = new TextField();
+        TextField tf2 = new TextField();
+        TextField tf3 = new TextField();
+
+
         logout = new Button("Logout");
         logout.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                //getUI().getNavigator().removeView(SecurePage.NAME);
-                //getUI().getNavigator().removeView(OtherSecurePage.NAME);
                 VaadinSession.getCurrent().setAttribute("user", null);
                 Page.getCurrent().setUriFragment("");
             }
@@ -43,21 +47,12 @@ public class WelcomePage extends VerticalLayout implements View
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         Label titleField = new Label("Welcome, " + VaadinSession.getCurrent().getAttribute("user").toString() + "!");
         horizontalLayout.addComponents(titleField, logout);
-
         List<User> userList = UserHelper.listOfUsers();
         Grid<User> grid = new Grid<>();
-
         grid.getEditor().setEnabled(true);
-
-        TextField tf = new TextField();
-        TextField tf1 = new TextField();
-        TextField tf2 = new TextField();
-        TextField tf3 = new TextField();
-
         ListDataProvider<User> dataProvider = new ListDataProvider<>(
                 userList);
         grid.setDataProvider(dataProvider);
-
         List<ValueProvider<User, String>> valueProviders = new ArrayList<>();
         valueProviders.add(User::getLogin);
         valueProviders.add(User::getFirstName);
@@ -65,28 +60,20 @@ public class WelcomePage extends VerticalLayout implements View
         valueProviders.add(User::getBirthDate);
         valueProviders.add(User::getBirthCity);
         valueProviders.add(User::getBirthCountry);
-
-        Iterator<ValueProvider<User, String>> iterator = valueProviders
-                .iterator();
-
+        Iterator<ValueProvider<User, String>> iterator = valueProviders.iterator();
         grid.addColumn(iterator.next()).setCaption("Login");
         grid.addColumn(iterator.next()).setEditorComponent(tf, User::setFirstName).setCaption("First Name");
         grid.addColumn(iterator.next()).setEditorComponent(tf1, User::setLastName).setCaption("Last Name");
         grid.addColumn(iterator.next()).setCaption("Birth Date");
         grid.addColumn(iterator.next()).setEditorComponent(tf2, User::setBirthCity).setCaption("Birth City");
         grid.addColumn(iterator.next()).setEditorComponent(tf3, User::setBirthCountry).setCaption("Birth Country");
-
         HeaderRow filterRow = grid.appendHeaderRow();
-
-        Iterator<ValueProvider<User, String>> iterator2 = valueProviders
-                .iterator();
-
+        Iterator<ValueProvider<User, String>> iterator2 = valueProviders.iterator();
         grid.getColumns().forEach(column -> {
             TextField field = new TextField();
             ValueProvider<User, String> valueProvider = iterator2.next();
 
-            field.addValueChangeListener(event -> dataProvider
-                    .addFilter(person -> StringUtils.containsIgnoreCase(
+            field.addValueChangeListener(event -> dataProvider.addFilter(person -> StringUtils.containsIgnoreCase(
                             valueProvider.apply(person), field.getValue())));
 
             field.setValueChangeMode(ValueChangeMode.EAGER);
